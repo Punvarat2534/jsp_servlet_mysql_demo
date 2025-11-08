@@ -81,7 +81,7 @@ body {
 <body>
 
 <div class="topnav" id="myTopnav">
-  <a href="/myTSU" class="active">Home</a>
+  <a href="/DemoServlet" class="active">Home</a>
   <a href="#news">News</a>
   <a href="#contact">Contact</a>
   <a href="#about">About</a>

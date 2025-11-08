@@ -37,6 +37,12 @@
   </c:forEach>
  
   </table>
+  
+  
+  <br><br>
+  
+  <img src="images/google.png">
+  
   </div>
   
 <%@include file="./layouts/footer.jsp" %>
