@@ -30,12 +30,7 @@
     <groupId>org.apache.tomcat.embed</groupId>
     <artifactId>tomcat-embed-jasper</artifactId>
 </dependency>
-<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>4.0.1</version> <!-- Or the appropriate version for your project/server -->
-    <scope>provided</scope>
-</dependency>
+
   <build>
     <plugins>
       <plugin>

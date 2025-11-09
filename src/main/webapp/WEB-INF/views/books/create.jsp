@@ -5,12 +5,12 @@
 <%@include file="./../layouts/header.jsp" %>
 <div class="col col-md-8 col-sm-12">
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data" action="?action=create" style="margin:0 auto;width:90%;">
+<form class="form-horizontal" method="post" action="?action=create" style="margin:0 auto;width:90%;">
 
 <div class="form-group">
     <label class="control-label col-sm-2 col-md-12" for="isbn">isbn:</label>
     <div class="col-sm-12">
-      <input type="text" class="form-control" id="isbn" name="isbn" placeholder="isbn" required>
+      <input type="text" class="form-control" id="isbn" name="isbn" value="" placeholder="isbn" required>
     </div>
 </div>
 

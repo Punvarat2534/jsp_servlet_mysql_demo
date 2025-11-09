@@ -17,6 +17,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.*;
 
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
 import com.demo.config.*;
 import com.demo.model.BooksModel;
 
@@ -89,6 +94,9 @@ public class DefaultServlet extends HttpServlet {
 					break;
 				case "update":
 					update(request, response);
+					break;
+				case "delete":
+					delete(request, response);
 					break;
 				default:
 					showAll(request, response);
@@ -212,14 +220,41 @@ public class DefaultServlet extends HttpServlet {
 		String author = request.getParameter("author");
 		String publisher = request.getParameter("publisher");
 		String year = request.getParameter("year");
+		String discript = request.getParameter("descrip");
 
-		String sql = "insert into books set isbn='90987990',title='test',author='test',publisher='tesst',year=990";
+		//String sql = "insert into books set isbn='"+isbn+"',title='"+title+"',"
+		//		+ "author='"+author+"',publisher='"+publisher+"',"
+		//				+ "year="+year+","
+		//				+ "image='poster.png'";
+		
+		String sql = "insert into books set isbn=?,title=?,"
+				+ "author=?,publisher=?,"
+						+ "year=?,"
+						+ "image=?";
+		
+		//out.println(sql);
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, isbn);
+		pstmt.setString(2, title);
+		pstmt.setString(3, author);
+		pstmt.setString(4, publisher);
+		pstmt.setInt(5,Integer.parseInt(year));
+		pstmt.setString(6, "poster.png");
+		pstmt.executeUpdate();
+		
+		
+		String sql2 = "insert into comments set isbn=?,description_s=?";
+		PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+		pstmt2.setString(1, isbn);
+		pstmt2.setString(2, discript);
+		pstmt2.executeUpdate();
+		//ResultSet rs2 = pstmt2.executeQuery();
 
 		// uploadfile//
 
-		Part filePart = request.getPart("images"); // "fileName" is the name attribute of the input type="file"
+		/*Part filePart = request.getPart("images"); // "fileName" is the name attribute of the input type="file"
 		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix
-		String uploadPath = getServletContext().getRealPath("") + "uploads"; // Define your upload directory
+		String uploadPath = getServletContext().getRealPath("") + "assets/images/"; // Define your upload directory
 
 		// Create the directory if it doesn't exist
 		
@@ -227,22 +262,20 @@ public class DefaultServlet extends HttpServlet {
 		 if (!uploadDir.exists()) { 
 			 //uploadDir.mkdir(); 
 			 filePart.write(uploadPath + java.io.File.separator + fileName);
-		 }
-		
-
-		
+		 }*/
 
 		// response.getWriter().println("File uploaded successfully to: " + uploadPath);
 		//response.getWriter().println(uploadPath);
 		//out.println(uploadPath);
-	    response.sendRedirect(request.getContextPath());
+	    
+		response.sendRedirect(request.getContextPath());
 
 	}
 
 	private void update(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		PrintWriter out = response.getWriter();
-		out.println("Insert Here!!");
+		//out.println("Insert Here!!");
 
 		String isbn = request.getParameter("isbn");
 		String title = request.getParameter("title");
@@ -253,6 +286,25 @@ public class DefaultServlet extends HttpServlet {
 		String sql = "insert into books set isbn=,title=,author=,publisher=,year=";
 		response.sendRedirect(request.getContextPath());
 
+	}
+	
+	private void delete(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		
+		String isbn = request.getParameter("hdnid");
+		
+		String sql = "delete from books where isbn=?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, isbn);
+		pstmt.executeUpdate();
+		
+		String sql2 = "delete from comments where isbn=?";
+		PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+		pstmt2.setString(1, isbn);
+		pstmt2.executeUpdate();
+		
+		//response.getWriter().println(isbn);
+		response.sendRedirect(request.getContextPath());
 	}
 
 }
