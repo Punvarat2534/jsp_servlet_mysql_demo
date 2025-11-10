@@ -5,7 +5,7 @@
 <%@include file="./../layouts/header.jsp" %>
 <div class="col col-md-8 col-sm-12">
 
-<form class="form-horizontal" method="post" action="?action=create" style="margin:0 auto;width:90%;">
+<form class="form-horizontal" method="post" action="?action=create"  enctype="multipart/form-data" style="margin:0 auto;width:90%;">
 
 <div class="form-group">
     <label class="control-label col-sm-2 col-md-12" for="isbn">isbn:</label>

@@ -42,10 +42,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
 @WebServlet("")
-
+@MultipartConfig
 public class DefaultServlet extends HttpServlet {
 	Connection conn = null;
-
+	//
 	public DefaultServlet() throws ClassNotFoundException, SQLException {
 		super();
 		this.conn = DB.initialize();
@@ -213,8 +213,10 @@ public class DefaultServlet extends HttpServlet {
 	private void create(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		PrintWriter out = response.getWriter();
-		//out.println("Insert Here!!");
-
+		//
+		String isbn = request.getParameter("isbn");
+		//out.println(isbn);
+		
 		String isbn = request.getParameter("isbn");
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
@@ -222,11 +224,6 @@ public class DefaultServlet extends HttpServlet {
 		String year = request.getParameter("year");
 		String discript = request.getParameter("descrip");
 
-		//String sql = "insert into books set isbn='"+isbn+"',title='"+title+"',"
-		//		+ "author='"+author+"',publisher='"+publisher+"',"
-		//				+ "year="+year+","
-		//				+ "image='poster.png'";
-		
 		String sql = "insert into books set isbn=?,title=?,"
 				+ "author=?,publisher=?,"
 						+ "year=?,"
@@ -248,25 +245,20 @@ public class DefaultServlet extends HttpServlet {
 		pstmt2.setString(1, isbn);
 		pstmt2.setString(2, discript);
 		pstmt2.executeUpdate();
-		//ResultSet rs2 = pstmt2.executeQuery();
+		//ResultSet rs2 = pstmt2.executeQuery();*/
 
 		// uploadfile//
-
 		/*Part filePart = request.getPart("images"); // "fileName" is the name attribute of the input type="file"
 		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix
-		String uploadPath = getServletContext().getRealPath("") + "assets/images/"; // Define your upload directory
-
-		// Create the directory if it doesn't exist
-		
-		 java.io.File uploadDir = new java.io.File(uploadPath); 
-		 if (!uploadDir.exists()) { 
-			 //uploadDir.mkdir(); 
-			 filePart.write(uploadPath + java.io.File.separator + fileName);
-		 }*/
-
-		// response.getWriter().println("File uploaded successfully to: " + uploadPath);
-		//response.getWriter().println(uploadPath);
-		//out.println(uploadPath);
+		//String uploadPath = getServletContext().getRealPath("") + "assets\\images"; // Define your upload directory
+		//String uploadPath = "assets/images/";
+		InputStream fileContent = filePart.getInputStream();
+		   
+	
+	        // Save the file to a desired location
+	    Files.copy(fileContent, Paths.get("assets/" + fileName));
+	    response.getWriter().println("File " + fileName + " uploaded successfully!");*/
+	   
 	    
 		response.sendRedirect(request.getContextPath());
 
